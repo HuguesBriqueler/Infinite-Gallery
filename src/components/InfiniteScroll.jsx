@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 
 function InfiniteScroll() {
   const [imgData, setImgData] = useState([[], [], []]);
-  const [page, setPage] = useState(1);
+  const [pageIndex, setPageIndex] = useState(1);
   const [searchTerm, setSearchTerm] = useState("random");
 
   const fetchImages = () => {
     fetch(
-      `https://api.unsplash.com/search/photos?page=${page}&per_page=30&query=${searchTerm}&client_id=UczR6L8gY0VghRj-fq77O6E4MY3pKKUmfXcQVjZBacc`
+      `https://api.unsplash.com/search/photos?page=${pageIndex}&per_page=30&query=${searchTerm}&client_id=UczR6L8gY0VghRj-fq77O6E4MY3pKKUmfXcQVjZBacc`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -32,13 +32,27 @@ function InfiniteScroll() {
 
   useEffect(() => {
     fetchImages();
-  }, []);
+  }, [pageIndex]);
 
   const handleSearch = (e) => {
     e.preventDefault();
   };
 
   const searchRef = useRef();
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollHeight - scrollTop <= clientHeight) {
+      setPageIndex((PageIndex) => PageIndex + 1);
+    }
+  };
 
   return (
     <div className={styles.container}>
