@@ -45,21 +45,15 @@ function InfiniteScroll() {
         setPageIndex={setPageIndex}
       />
       <div className={styles.cardList}>
-        <div>
-          {imgData[0].map((image) => (
-            <img key={image.id} src={image.img} alt={image.alt} />
-          ))}
-        </div>
-        <div>
-          {imgData[1].map((image) => (
-            <img key={image.id} src={image.img} alt={image.alt} />
-          ))}
-        </div>
-        <div>
-          {imgData[2].map((image) => (
-            <img key={image.id} src={image.img} alt={image.alt} />
-          ))}
-        </div>
+        {/* Here we .map each image contained in each column itself .map from imgData state. 
+          see legacy code */}
+        {imgData.map((column, index) => (
+          <div key={index}>
+            {imgData[index].map((image) => (
+              <img key={image.id} src={image.img} alt={image.alt} />
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
