@@ -1,3 +1,8 @@
+## Infinite Gallery
+
+An 'Unsplash like' project (made with Unsplash API).  
+It comes with an infinite image gallery and allows you to refine your search for specific themes.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
