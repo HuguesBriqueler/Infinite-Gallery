@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 // Fetch data from unsplash API and dispatch to imgData state
 const fetchImages = (imgData, setImgData, pageIndex, searchTerm) => {
   fetch(
-    `https://api.unsplash.com/search/photos?page=${pageIndex}&per_page=30&query=${searchTerm}&client_id=UczR6L8gY0VghRj-fq77O6E4MY3pKKUmfXcQVjZBacc`
+    `https://api.unsplash.com/search/photos?page=${pageIndex}&per_page=30&query=${searchTerm}&client_id=${process.env.REACT_APP_API_KEY}`
   )
     .then((res) => res.json())
     .then((data) => {
