@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./InfiniteScroll.module.css";
+import SearchBar from "./SearchBar";
 import fetchImages from "./unsplashAPI";
 
 function InfiniteScroll() {
@@ -12,16 +13,6 @@ function InfiniteScroll() {
   useEffect(() => {
     fetchImages(imgData, setImgData, pageIndex, searchTerm);
   }, [pageIndex, searchTerm]);
-
-  // Managing search field
-  const searchRef = useRef();
-  const handleSearch = (e) => {
-    e.preventDefault();
-    isSearching.current = true;
-    setSearchTerm(searchRef.current.value);
-    setImgData([[], [], []]);
-    setPageIndex(1);
-  };
 
   // Setting up scroll event listener
   useEffect(() => {
@@ -47,10 +38,12 @@ function InfiniteScroll() {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSearch}>
-        <label htmlFor="search">Votre recherche</label>
-        <input type="text" id="search" ref={searchRef} />
-      </form>
+      <SearchBar
+        isSearching={isSearching}
+        setSearchTerm={setSearchTerm}
+        setImgData={setImgData}
+        setPageIndex={setPageIndex}
+      />
       <div className={styles.cardList}>
         <div>
           {imgData[0].map((image) => (
