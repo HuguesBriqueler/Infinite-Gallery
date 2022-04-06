@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./InfiniteScroll.module.css";
-import { v4 as uuidv4 } from "uuid";
+import fetchImages from "./unsplashAPI";
 
 function InfiniteScroll() {
   const [imgData, setImgData] = useState([[], [], []]);
@@ -8,33 +8,9 @@ function InfiniteScroll() {
   const [searchTerm, setSearchTerm] = useState("random");
   const isSearching = useRef(false);
 
-  // Fetch data from unsplash API and dispatch to imgData state
-  const fetchImages = () => {
-    fetch(
-      `https://api.unsplash.com/search/photos?page=${pageIndex}&per_page=30&query=${searchTerm}&client_id=UczR6L8gY0VghRj-fq77O6E4MY3pKKUmfXcQVjZBacc`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const dataRecieved = [];
-        data.results.forEach((item) => {
-          dataRecieved.push({
-            id: uuidv4(),
-            img: item.urls.regular,
-            alt: item.alt_description,
-          });
-        });
-        const newImgData = [
-          [...imgData[0], ...dataRecieved.slice(0, 10)],
-          [...imgData[1], ...dataRecieved.slice(10, 20)],
-          [...imgData[2], ...dataRecieved.slice(20, 30)],
-        ];
-        setImgData(newImgData);
-      });
-  };
-
   // Call fetchImages function on component mount and on pageIndex change
   useEffect(() => {
-    fetchImages();
+    fetchImages(imgData, setImgData, pageIndex, searchTerm);
   }, [pageIndex, searchTerm]);
 
   // Managing search field
